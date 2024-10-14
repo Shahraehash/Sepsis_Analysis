@@ -1,0 +1,182 @@
+---
+title: "Sepsis Logistic Regression + Best Model"
+author: "Raehash Shah"
+date: "2023-12-19"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages('xtable')
+library('xtable')
+
+library('bestglm')
+library('logisticPCA')
+library('ggplot2')
+library('dplyr')
+library('plyr')
+library("FactoMineR")
+library("factoextra")
+
+set.seed(28)
+```
+
+## Overview of this file
+
+This R markdown file uses the two datasets to identify the coefficients that are most significant in  classifying if a patient has Sepsis or not. We will use this regression techniques to identify what features we will preserve when trying to create a regression for number of Sepsis patients in regions of the U.S. Consider this to be stage 1. 
+
+## Load Data
+
+```{r}
+sepsis_df <- read.csv("Data/Disease/Sepsis_Dis_indicator/patient_risk_profiles_trim.csv")
+sepsis_df = subset(sepsis_df, select = -c(X))
+```
+## Visualize Data in 2 Dimension for Separation
+
+```{r, echo=FALSE}
+sepsis_df_sub = subset(sepsis_df, select = -c(Sepsis))
+sepsis = sepsis_df$Sepsis
+sepsis[sepsis == 1] <- "Sepsis"
+sepsis[sepsis == 0] <- "No Sepsis"
+
+```
+
+Here is an exponential PCA estimation of Sepsis
+```{r}
+logsvd_model = logisticSVD(sepsis_df_sub, k = 2)
+
+plot(logsvd_model, type = "trace")
+plot(logsvd_model, type = "scores") + geom_point(aes(colour = sepsis)) + 
+  ggtitle("Exponential Family PCA")
+```
+
+Here is a logistic PCA
+```{r}
+logpca_cv = cv.lpca(sepsis_df_sub, ks = 2, ms = 1:10)
+plot(logpca_cv)
+logpca_model = logisticPCA(sepsis_df_sub, k = 2, m = which.min(logpca_cv))
+clogpca_model = convexLogisticPCA(sepsis_df_sub, k = 2, m = which.min(logpca_cv))
+plot(clogpca_model, type = "trace")
+plot(logpca_model, type = "scores") + geom_point(aes(colour = sepsis)) + ggtitle("Logistic PCA")
+
+plot(clogpca_model, type = "scores") + geom_point(aes(colour = sepsis)) + ggtitle("Convex Logistic PCA") 
+```
+
+## Multiple Correspondence Analysis
+```{r, echo = FALSE}
+sepsis_df_new = subset(sepsis_df)
+
+```
+
+
+
+```{r, echo = FALSE}
+sepsis_df_new$High.BP <- ifelse(sepsis_df_new$High.BP  == 1, "High BP", "No High BP")
+sepsis_df_new$High.BP <- as.factor(sepsis_df_new$High.BP)
+sepsis_df_new$Cancer <- ifelse(sepsis_df_new$Cancer  == 1, "Cancer", "No Cancer")
+sepsis_df_new$Cancer <- as.factor(sepsis_df_new$Cancer)
+sepsis_df_new$Asthma <- ifelse(sepsis_df_new$Asthma  == 1, "Asthma", "No Asthma")
+sepsis_df_new$Asthma <- as.factor(sepsis_df_new$Asthma)
+sepsis_df_new$Coronary.Heart.Disease <- ifelse(sepsis_df_new$Coronary.Heart.Disease  == 1, "Heart Disease", "No Heart Disease")
+sepsis_df_new$Coronary.Heart.Disease <- as.factor(sepsis_df_new$Coronary.Heart.Disease)
+sepsis_df_new$COPD <- ifelse(sepsis_df_new$COPD  == 1, "COPD", "No COPD")
+sepsis_df_new$COPD <- as.factor(sepsis_df_new$COPD)
+sepsis_df_new$Diabetes <- ifelse(sepsis_df_new$Diabetes  == 1, "Diabetes", "No Diabetes")
+sepsis_df_new$Diabetes <- as.factor(sepsis_df_new$Diabetes)
+sepsis_df_new$Sepsis <- ifelse(sepsis_df_new$Sepsis  == 1, "Sepsis", "No Sepsis")
+sepsis_df_new$Sepsis <- as.factor(sepsis_df_new$Sepsis)
+```
+
+```{r}
+par(mfrow = c(3,3))
+for (i in 1:7){
+  plot(sepsis_df_new[,i], main = colnames(sepsis_df_new)[i], ylab = "Count", col = "steelblue", las = 2)
+}
+
+```
+
+```{r}
+res.mca <- MCA(sepsis_df_new, graph = FALSE)
+fviz_screeplot(res.mca, addlabels = TRUE, ylim = c(0, 45))
+fviz_mca_var(res.mca, 
+             repel = TRUE, # Avoid text overlapping (slow)
+             ggtheme = theme_minimal())
+```
+
+
+```{r}
+fviz_mca_ind(res.mca, 
+             label = "none", # hide individual labels
+             habillage = "Sepsis", # color by groups 
+             palette = c("#00AFBB", "#E7B800"),
+             addEllipses = TRUE, ellipse.type = "confidence",
+             ggtheme = theme_minimal()) 
+
+fviz_ellipses(res.mca, c("High.BP", "Cancer", "Asthma", "Coronary.Heart.Disease", "COPD", "Diabetes", "Sepsis"),
+              geom = "point")
+```
+
+
+## Apply Logistic Regression Models
+
+```{r, echo = FALSE}
+sepsis_df$High.BP = factor(sepsis_df$High.BP)
+sepsis_df$Cancer = factor(sepsis_df$Cancer)
+sepsis_df$Asthma = factor(sepsis_df$Asthma)
+sepsis_df$Coronary.Heart.Disease = factor(sepsis_df$Coronary.Heart.Disease)
+sepsis_df$COPD = factor(sepsis_df$COPD)
+sepsis_df$Diabetes = factor(sepsis_df$Diabetes)
+```
+
+```{r model}
+full_model <- glm(Sepsis ~ ., data = sepsis_df, family = "binomial")
+summary(full_model)
+```
+
+
+```{r}
+step_model <- step(full_model, direction = "both")
+```
+
+```{r}
+glm_model <- bestglm(sepsis_df, IC = "AIC", method = "exhaustive", family = binomial)
+glm_model
+```
+
+```{r, echo = FALSE}
+
+#AIC_scores <- c(95.51, 93.6, 91.7, 89.89, 88.22, 86.73, 86.01, 85.02, 83.81, 82.84, 82.14)
+#num_terms_removed <- c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+AIC_scores <- c(92.52, 90.52, 88.58, 86.95, 85.57, 85)
+num_terms_removed <- c(0, 1, 2, 3, 4, 5)
+
+plot(num_terms_removed, AIC_scores)
+lines(num_terms_removed, AIC_scores)
+```
+
+Here the goal was to apply a logistic regression to identify the features of our dataset that are most likely to correspond to a Sepsis diagnosis. Once we had that first model, we wanted to identify which variables were the most significant in our dataset in classifying whether a patient had Sepsis. Therefore by minimizing AIC (Akaike Information Criterion), a score that compares how much the model deviates from the data, we got the best logistic regression model. We approached this in two ways, ```step``` and ```bestglm```. The objective function for both is to minimize AIC, however, step performs the estimation in an iterative manner (the iterative process and decrease in AIC as we remove variables are shown in the graph above) while bestglm considers all possible subsets of the variables and identifies the model that has the minimal AIC. Using both techniques we got the following variables to be the most statistically significant in classifying Sepsis and to also have the same coefficients and intercept as shown in the table below. 
+
+
+
+```{r, results = 'hide', echo=FALSE}
+step_coefficients <- step_model$coefficients
+glm_coefficients <- glm_model$BestModel$coefficients
+```
+
+```{r, results = 'asis', echo=FALSE}
+#statistical_significance <- c(8.025997e-08, 1.760232e-02, 2.856001e-02)
+statistical_significance <- c(1.187194e-09, 4.708272e-02)
+
+coefficients_table <- cbind(step_coefficients, glm_coefficients, statistical_significance)
+#rownames(coefficients_table) <- c("(Intercept)", "Cancer", "Stroke")
+rownames(coefficients_table) <- c("(Intercept)", "Cancer")
+colnames(coefficients_table) <- c("Step Coefficients", "GLM Coefficients", "Pr(>|t|)")
+
+xtmp <- xtable(coefficients_table, label = "tab:tab2",
+                    caption = "Coefficients and P value of Remaining Variables after Step
+                    and Exhaustive Approach to finding significant coefficients")
+
+digits(xtmp) <- c(0, 3, 3, 10)
+print.xtable(xtmp, comment = FALSE)
+```

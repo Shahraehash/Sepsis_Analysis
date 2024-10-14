@@ -1,0 +1,114 @@
+Creating all Dataframes
+
+Performing Random Train/Test Experiment...
+Linear Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.958
+Lasso Regression R^2: 0.936 MSE: 0.025 CV_Score: 0.958
+Ridge Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.958
+Random Forest Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.952
+XGB Regression R^2: 0.913 MSE: 0.029 CV_Score: 0.946
+
+Assessing Model Only Looking at Significant Variables...
+Looking at AIC Significant Columns
+Linear Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.959
+Lasso Regression R^2: 0.936 MSE: 0.025 CV_Score: 0.958
+Ridge Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.959
+Random Forest Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.951
+XGB Regression R^2: 0.911 MSE: 0.029 CV_Score: 0.952
+
+
+Looking at Spearman Index Significant Columns
+Linear Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.933
+Lasso Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.933
+Ridge Regression R^2: 0.934 MSE: 0.025 CV_Score: 0.933
+Random Forest Regression R^2: 0.954 MSE: 0.021 CV_Score: 0.912
+XGB Regression R^2: 0.938 MSE: 0.024 CV_Score: 0.908
+
+Performing Test On One Year and Train on Remaining Experiment...
+Year:  2014
+Linear Regression R^2: -1.820 MSE: 0.150 CV_Score: 0.919
+Lasso Regression R^2: 0.432 MSE: 0.067 CV_Score: 0.925
+Ridge Regression R^2: -1.820 MSE: 0.150 CV_Score: 0.919
+Random Forest Regression R^2: 0.736 MSE: 0.046 CV_Score: 0.952
+XGB Regression R^2: 0.468 MSE: 0.065 CV_Score: 0.941
+Year:  2015
+Linear Regression R^2: 0.700 MSE: 0.049 CV_Score: 0.917
+Lasso Regression R^2: 0.874 MSE: 0.032 CV_Score: 0.921
+Ridge Regression R^2: 0.700 MSE: 0.049 CV_Score: 0.917
+Random Forest Regression R^2: 0.862 MSE: 0.033 CV_Score: 0.939
+XGB Regression R^2: 0.850 MSE: 0.035 CV_Score: 0.914
+Year:  2016
+Linear Regression R^2: 0.984 MSE: 0.011 CV_Score: 0.913
+Lasso Regression R^2: 0.985 MSE: 0.011 CV_Score: 0.918
+Ridge Regression R^2: 0.984 MSE: 0.011 CV_Score: 0.913
+Random Forest Regression R^2: 0.997 MSE: 0.005 CV_Score: 0.937
+XGB Regression R^2: 0.971 MSE: 0.015 CV_Score: 0.914
+Year:  2017
+Linear Regression R^2: 0.930 MSE: 0.024 CV_Score: 0.912
+Lasso Regression R^2: 0.992 MSE: 0.008 CV_Score: 0.917
+Ridge Regression R^2: 0.930 MSE: 0.024 CV_Score: 0.912
+Random Forest Regression R^2: 0.847 MSE: 0.035 CV_Score: 0.939
+XGB Regression R^2: 0.718 MSE: 0.047 CV_Score: 0.913
+Year:  2018
+Linear Regression R^2: 0.872 MSE: 0.032 CV_Score: 0.949
+Lasso Regression R^2: 0.874 MSE: 0.032 CV_Score: 0.949
+Ridge Regression R^2: 0.872 MSE: 0.032 CV_Score: 0.949
+Random Forest Regression R^2: 0.944 MSE: 0.021 CV_Score: 0.950
+XGB Regression R^2: 0.928 MSE: 0.024 CV_Score: 0.929
+Year:  2019
+Linear Regression R^2: -1.352 MSE: 0.137 CV_Score: 0.959
+Lasso Regression R^2: 0.211 MSE: 0.079 CV_Score: 0.961
+Ridge Regression R^2: -1.352 MSE: 0.137 CV_Score: 0.959
+Random Forest Regression R^2: 0.315 MSE: 0.074 CV_Score: 0.966
+XGB Regression R^2: 0.491 MSE: 0.064 CV_Score: 0.953
+
+Estimating variables for the next 15 years.
+
+Graphing Results
+The total number of Sepsis patients in 2023 for model  SEPSIS  is estimated to  2095217.8769188377
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_all_random_test_Linear  is estimated to  1093538.7106469234
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_all_random_test_Lasso  is estimated to  1061923.8226090418
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_all_random_test_Ridge  is estimated to  1093538.7106465898
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_all_random_test_RF  is estimated to  1112221.9319895785
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_all_random_test_XGB  is estimated to  1082143.5
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_AIC_Linear  is estimated to  1093418.352881754
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_AIC_Lasso  is estimated to  1060883.0152089936
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_AIC_Ridge  is estimated to  1093418.3528814646
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_AIC_RF  is estimated to  1114553.8818835395
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_AIC_XGB  is estimated to  1092312.5
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_SR_Linear  is estimated to  932569.3270123993
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_SR_Lasso  is estimated to  937376.5776728743
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_SR_Ridge  is estimated to  932569.3270126646
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_SR_RF  is estimated to  1051815.5818264768
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_SR_XGB  is estimated to  1073164.8
+The total number of Sepsis patients in 2023 for model  SEPSIS  is estimated to  2095217.8769188377
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_all_random_test_RF  is estimated to  1112221.9319895785
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_AIC_RF  is estimated to  1114553.8818835395
+The total number of Sepsis patients in 2023 for model  SEPSIS_pred_SR_RF  is estimated to  1051815.5818264768
+The top  5  regions in  2023  are as follows:  ['Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Philadelphia, PA', 'Phoenix, AZ']  with the number of patients as follows: 
+ Los Angeles, CA     107125.337944
+Chicago, IL          84120.290432
+Houston, TX          62617.385124
+Philadelphia, PA     54122.286205
+Phoenix, AZ          43977.418032
+Name: SEPSIS, dtype: float64
+The top  5  regions in  2023  are as follows:  ['Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Philadelphia, PA', 'San Antonio, TX']  with the number of patients as follows: 
+ Los Angeles, CA     47702.960692
+Chicago, IL         40822.915315
+Houston, TX         35852.155088
+Philadelphia, PA    21183.223212
+San Antonio, TX     19837.165122
+Name: SEPSIS_pred_all_random_test_RF, dtype: float64
+The top  5  regions in  2023  are as follows:  ['Chicago, IL', 'Los Angeles, CA', 'Houston, TX', 'Philadelphia, PA', 'Phoenix, AZ']  with the number of patients as follows: 
+ Chicago, IL         44913.745529
+Los Angeles, CA     42145.187406
+Houston, TX         36023.053709
+Philadelphia, PA    20551.914476
+Phoenix, AZ         20001.705082
+Name: SEPSIS_pred_AIC_RF, dtype: float64
+The top  5  regions in  2023  are as follows:  ['Los Angeles, CA', 'Houston, TX', 'Chicago, IL', 'San Antonio, TX', 'Philadelphia, PA']  with the number of patients as follows: 
+ Los Angeles, CA     44560.101668
+Houston, TX         34345.065886
+Chicago, IL         28206.799559
+San Antonio, TX     18067.557771
+Philadelphia, PA    17607.791323
+Name: SEPSIS_pred_SR_RF, dtype: float64
